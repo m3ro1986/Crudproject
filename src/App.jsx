@@ -8,6 +8,7 @@ function App() {
 
   const [users, setUsers] = useState([])
   const [updatedUser, setUpdatedUser] = useState(null)
+  const [form, setForm] = useState(false)
 
   const getAllUsers = () => {
     axios.get('https://users-crud.academlo.tech/users/')
@@ -15,7 +16,12 @@ function App() {
   }
 
   const selectUser = (user) => {
-    setUpdatedUser(user)
+    setUpdatedUser(user);
+    showForm()
+  }
+
+  const showForm = () => {
+    setForm(!form)
   }
 
   useEffect(()=>{
@@ -24,14 +30,21 @@ function App() {
 
   return (
     <div className="App">
+      {form &&
       <UsersForm 
         getAllUsers={getAllUsers} 
         updatedUser={updatedUser} 
-        selectUser={selectUser}/>
+        selectUser={selectUser}
+        showForm={showForm}
+      />
+      }
       <UsersList 
         users={users} 
         selectUser={selectUser} 
-        getAllUsers={getAllUsers}/>
+        getAllUsers={getAllUsers}
+        showForm={showForm}
+        updatedUser={updatedUser}
+      />
     </div>
   )
 }
